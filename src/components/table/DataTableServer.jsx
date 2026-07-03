@@ -247,6 +247,7 @@ const DataTableServer = (props) => {
                             slots={{
                                 toolbar: props.nosearchbar ? CustomToolbarNoSearch : CustomToolbarLight
                             }}
+                            sx={{ maxHeight: 900 }}
                             // slots={{
                             //     toolbar: GridToolbar
                             // }}

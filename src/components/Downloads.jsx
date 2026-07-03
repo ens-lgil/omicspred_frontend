@@ -1,4 +1,4 @@
-import { Database, Download, FileEarmarkSpreadsheet, FileEarmarkZip, FileEarmarkZipFill, FiletypeCsv, FiletypeXlsx, Folder2, InfoCircleFill } from 'react-bootstrap-icons';
+import { Download, FileEarmarkSpreadsheet, FileZip, FileEarmarkZip, FileEarmarkZipFill, FiletypeCsv, FiletypeXlsx, Folder2, InfoCircleFill } from 'react-bootstrap-icons';
 import { ToggleDiv } from './Generic';
 import { phewas_mention } from './Common';
 import Href from './Href';
@@ -21,19 +21,14 @@ export const download_labels = {
     "scoring_files_hm_38": {
         "label": "Scoring files",
         "sub_label": "lifted over to GRCh38",
-        "title": "Download compresssed file - lifted over to GRCh38 (harmonized)",
+        "title": "Download compresssed file - lifted over to GRCh38 (harmonized) - pgsc_calc compatible",
         "icon": <FileEarmarkZipFill className="hl_color" size={icon_size}/>
     },
     "predictdb": {
         "label": "PredictDB",
-        "sub_label": "SQLite",
-        "title": "Download SQLite compressed file",
-        "icon": <Database className="hl_color" size={icon_size}/>
-    },
-    "covariance": {
-        "label": "Covariance",
-        "title": "Download covariance compressed text file",
-        "icon": <FileEarmarkZip className="hl_color" size={icon_size}/>
+        "sub_label": "SQLite + Covariance",
+        "title": "Download compressed archive (.tar.gz) containing the PredictDB SQLite file and the Covariance file",
+        "icon": <FileZip className="hl_color" size={icon_size}/>
     },
     "metadata": {
         "label": "Metadata",

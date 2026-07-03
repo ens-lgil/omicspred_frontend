@@ -25,7 +25,7 @@ const SearchDocs = () => {
     return (
         <>
             <p>
-                The website search uses <Href href='https://www.elastic.co/elasticsearch' text='ElasticSearch'/> (v.7.17) to index and search {project_name} metadata.
+                The website search uses <Href href='https://www.elastic.co/elasticsearch' text='ElasticSearch'/> (v.8.19) to index and search {project_name} metadata.
             </p>    
             The different metadata indexed are:
             <ul>

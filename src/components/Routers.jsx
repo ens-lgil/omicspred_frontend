@@ -37,14 +37,14 @@ import PhenotypeOld from "../pages/Legacy/Applications/Phenotype";
 import PhenotypesFull from "../pages/Legacy/Applications/PhenotypesFull";
 import PhenotypesSum from "../pages/Legacy/Applications/PhenotypesSum";
 
-
+// Module to declare/route the website pages
 function OpRouters() {
     return (
         <Router
-            future={{
-                v7_relativeSplatPath: true,
-                v7_startTransition: true
-            }}
+            // future={{
+            //     v7_relativeSplatPath: true,
+            //     v7_startTransition: true
+            // }}
         >
             <ScrollToAnchor/>
             <Routes>

@@ -3,8 +3,8 @@ import { FileEarmarkArrowDown, Stack, People, GraphUp, LayersFill } from 'react-
 import { common_cols, common_column_groups, data_separator } from './common';
 import { ancestry_cols } from './ancestry';
 import { download_labels, ExpandableDownloadButton, get_download_list } from '../../Downloads';
-import { ToggleDiv, TooltipText, phewasBadge } from '../../Generic';
-import { internal_dataset_link, phewas_mention } from '../../Common';
+import { ToggleDiv, TooltipText, participantsBadge, phewasBadge } from '../../Generic';
+import { internal_dataset_link, phewas_mention, display_cohort } from '../../Common';
 import { SampleTable } from '../../Sample';
 import Href from '../../Href';
 
@@ -14,20 +14,21 @@ const default_cell_value = process.env.DEFAULT_CELL_VALUE;
 
 const publication_score_col = {...common_cols['publication'], headerName: 'Scores Publication'}
 
-const download_link = (url,type=undefined) => {
+const download_link = (url,type=undefined,link_text=undefined) => {
     let icon = <FileEarmarkArrowDown className="hl_color" size="20"/>
     let link_title = 'Download data file';
     if (type && download_labels[type]) {
         icon = download_labels[type]['icon']
         link_title = download_labels[type]['title']
     }
+    let link_text_content = link_text ? ' '+link_text : '';
     return (
         <TooltipText
             ttype='icon'
             title={link_title}
             text={
                 <a className="op_icon_link" href={url} target="_blank">
-                    {icon}
+                    {icon}{link_text_content}
                 </a>}
         />
     );
@@ -164,7 +165,7 @@ const columns_for_dataset = {
     },
     'platform': {
         field: 'platform',
-        minWidth: 130,
+        minWidth: 120,
         // flex: 1,
         renderHeader: () => {
             return (
@@ -214,19 +215,16 @@ export const datasets_columns = [
     },
     {
         field: 'predictdb',
-        headerName: 'PredictDB format',
-        minWidth: 140,
+        headerName: 'PredictDB',
+        description: 'PredictDB database format + Covariance file (both packaged in an archive)',
+        minWidth: 100,
         // flex: 0.5,
         align: 'right',
         renderCell: (params) => {
             const files_urls = params.row.scoring_files_urls
             if (files_urls.predictdb) {
                 let link = download_link(files_urls.predictdb,'predictdb');
-                let link2 = ''
-                if (files_urls.covariance) {
-                    link2 = <span className='ms-1'>{download_link(files_urls.covariance,'covariance')}</span>;
-                }
-                return <>{link}{link2}</>;
+                return link
             }
             else {
                 return default_cell_value
@@ -261,56 +259,39 @@ export const datasets_columns = [
         valueGetter: (value, row) => { return row.scoring_files_urls.metadata }
     },
     {
-        field: 'validation_results',
-        headerName: 'Validation results',
-        minWidth: 140,
+        field: 'additional_files',
+        headerName: 'Additional downloads',
+        minWidth: 220,
         // flex: 0.5,
-        align: 'right',
+        // align: 'right',
         renderCell: (params) => {
-            const files_urls = params.row.scoring_files_urls
+            const files_urls = params.row.scoring_files_urls;
+            let other_files = [];
             if (files_urls.validation_results) {
-                return download_link(files_urls.validation_results,'validation_results');
+                other_files.push(<div className='mb-1'>{download_link(files_urls.validation_results,'validation_results','Validation results')}</div>)
             }
-            else {
-                return default_cell_value
-            }
-        },
-        valueGetter: (value, row) => { return row.scoring_files_urls.validation_results }
-    },
-    {
-        field: 'score_variant_info',
-        headerName: 'Score variant info',
-        minWidth: 140,
-        // flex: 0.5,
-        align: 'right',
-        renderCell: (params) => {
-            const files_urls = params.row.scoring_files_urls
             if (files_urls.score_variant_info) {
-                return download_link(files_urls.score_variant_info,'score_variant_info');
+                other_files.push(<div className='mb-1'>{download_link(files_urls.score_variant_info,'score_variant_info', 'Score variant info')}</div>)
             }
-            else {
-                return default_cell_value
-            }
-        },
-        valueGetter: (value, row) => { return row.scoring_files_urls.score_variant_info }
-    },
-    {
-        field: 'gwas_sumstats',
-        headerName: 'GWAS sum. stats',
-        description: 'GWAS summary statistics',
-        minWidth: 140,
-        // flex: 0.5,
-        align: 'right',
-        renderCell: (params) => {
-            const files_urls = params.row.scoring_files_urls
             if (files_urls.gwas_sumstats) {
-                return download_link(files_urls.gwas_sumstats,'gwas_sumstats');
+                other_files.push(<div>{download_link(files_urls.gwas_sumstats,'gwas_sumstats','GWAS summary statistics')}</div>)
             }
-            else {
-                return default_cell_value
-            }
+            return other_files.length > 0 ? other_files : default_cell_value;
         },
-        valueGetter: (value, row) => { return row.scoring_files_urls.gwas_sumstats }
+        valueGetter: (value, row) => {
+            const files_urls = row.scoring_files_urls;
+            let other_files = [];
+            if (files_urls.validation_results) {
+                other_files.push(files_urls.validation_results)
+            }
+            if (files_urls.score_variant_info) {
+                other_files.push(files_urls.score_variant_info)
+            }
+            if (files_urls.gwas_sumstats) {
+                other_files.push(files_urls.gwas_sumstats)
+            }
+            return other_files.join(', ');
+        }
     },
     common_cols['license']
 ]
@@ -382,8 +363,9 @@ export const datasets_phewas_columns = [
 
 
 const dataset_common_end = [
-    columns_for_dataset['platform_version'],
+    common_cols['platform_version'],
     common_cols['method_name'],
+    common_cols['training_window'],
     common_cols['scores_count'],
     columns_for_dataset['phewas_count'],
     ancestry_cols['ancestry_training_computed'],
@@ -443,4 +425,61 @@ export const dataset_column_groups = [
         },
     },
     common_column_groups['ancestry']
+]
+
+
+
+export const dataset_cohort_columns = [
+    {
+        field: 'cohort__name_short',
+        headerName: 'Cohort',
+        minWidth: 100,
+        // flex: 0.5,
+        renderCell: (params) => {
+            const cohort = params.row.cohort;
+            return display_cohort(cohort,cohort.name_short, params.row.cohorts_additional);
+        },
+        valueGetter: (value, row) => {
+            return row.cohort.name_short
+        }
+    },
+    ancestry_cols['ancestry'],
+    {
+        field: 'ancestry_assignment',
+        headerName: 'Ancestry Assignment Method',
+        minWidth: 300,
+        valueGetter: (value, row) => {
+            return row.ancestry_assignment;
+        }
+    },
+    {
+        field: 'sample_number',
+        headerName: 'Sample size',
+        description: 'Maximum sample size',
+        type: 'number',
+        width: 100,
+        renderCell: (params) => {
+            return participantsBadge(params.row.sample_number);
+        },
+        valueGetter: (value, row) => {
+            return row.sample_number;
+        }
+    },
+    {
+        field: 'sample_type',
+        headerName: 'Sample type',
+        width: 100,
+        renderCell: (params) => {
+            const stype = params.row.type;
+            if (stype == 'Training') {
+                return (<span className='training_col fw-bold'>{stype}</span>)
+            }
+            else {
+                return stype;
+            }
+        },
+        valueGetter: (value, row) => {
+            return row.type;
+        }
+    }
 ]

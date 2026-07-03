@@ -77,7 +77,7 @@ const DataTable = (props) => {
     }
 
     return (
-        <div className="d-flex" >
+        <div className="d-flex">
             <div className="table-responsive">
                 <DataGrid
                     // autoHeight
@@ -99,11 +99,12 @@ const DataTable = (props) => {
                         columns: {
                             // Hide columns listed in the model. the other columns will remain visible
                             columnVisibilityModel: initial_hidden_columns
-                        }
+                        },
                     }}
                     slots={{
                         toolbar: table_toolbar
                     }}
+                    sx={{ maxHeight: 900 }}
                     // slots={{
                     //     toolbar: GridToolbar
                     // }}

@@ -209,7 +209,7 @@ function Platform() {
                 <tr><td>Omics type</td><td>{omicspred_omics_type(platform_sum.type)}</td></tr>
                 <tr><td>Long Name</td><td>{platform_sum.full_name}</td></tr>
                 { platform_versions != '' ? <tr><td>Version{platform_versions.includes(',') ? 's':''}</td><td>{platform_versions}</td></tr> : ''}
-                <tr><td>Technic</td><td>{platform_sum.technic}</td></tr>
+                <tr><td>Technique</td><td>{platform_sum.technique}</td></tr>
             </>
         )
     }

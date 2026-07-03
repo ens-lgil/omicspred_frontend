@@ -4,6 +4,7 @@ const Container = (props) => {
     const label = props.content.label;
     const desc = props.content.desc;
     const content = props.content.struct;
+    const external_source = props.content.external_source;
     const prefix = props.prefix;
 
     return (
@@ -15,6 +16,7 @@ const Container = (props) => {
                     { content.map((entry, index)=> <tr key={typeof(entry.name) == 'string' ? entry.name : index}><td className="d-none"></td><td>{entry.name}</td><td>{entry.desc}</td></tr>) }
                 </tbody>
             </table>
+            { external_source ? <div>{external_source}</div> : '' }
         </div>
     );
 };

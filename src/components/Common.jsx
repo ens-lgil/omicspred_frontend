@@ -481,7 +481,12 @@ export const omicspred_omics_type = (type,use_alt) => {
 
 export const get_cohorts_cols_list = (sample_cohorts, cohorts_list) => {
     for (let j=0; j<sample_cohorts.length; j++) {
-        const cohort = sample_cohorts[j]['name_short'].replaceAll(' ','_');
+        const cohort_data = sample_cohorts[j];
+        let cohort = cohort_data['name_short'];
+        if (cohort_data['additional']) {
+            cohort += ' '+cohort_data['additional'].toLowerCase()
+        }
+        cohort = cohort.replaceAll(' ','_');
         const cohort_obj = sample_cohorts[j];
         if (cohort_cols[cohort]) {
             // cohorts_list.push(cohort);
@@ -493,7 +498,7 @@ export const get_cohorts_cols_list = (sample_cohorts, cohorts_list) => {
                 const cohort_col_label = cohort_col_labels[k];
                 if (cohort_col_label.toLowerCase() == cohort.toLowerCase()) {
                     cohorts_list[cohort_col_label] = cohort_obj;
-                    // cohorts_list.push(cohort_col_label);
+
                 }
                 else if (cohort_col_label.startsWith(cohort) && !Object.keys(cohorts_list).includes(cohort_col_label)) {
                     cohorts_list[cohort_col_label] = cohort_obj;
@@ -507,7 +512,12 @@ export const get_cohorts_cols_list = (sample_cohorts, cohorts_list) => {
 
 export const get_cohorts_col_groups_list = (sample_cohorts, cohorts_list) => {
     for (let j=0; j<sample_cohorts.length; j++) {
-        const cohort = sample_cohorts[j]['name_short'].replaceAll(' ','_');
+        const cohort_data = sample_cohorts[j];
+        let cohort = sample_cohorts[j]['name_short'];
+        if (cohort_data['additional']) {
+            cohort += ' '+cohort_data['additional'].toLowerCase()
+        }
+        cohort = cohort.replaceAll(' ','_');
         if (common_column_groups[cohort] && !cohorts_list.includes(cohort)) {
             cohorts_list.push(cohort);
         }
@@ -529,11 +539,10 @@ export const get_cohorts_col_groups_list = (sample_cohorts, cohorts_list) => {
 
 
 /* Display cohort as a link to the internal URL and with the description in tooltip */
-export const display_cohort = (cohort, cohort_name) => {
+export const display_cohort = (cohort, cohort_name, cohorts_additional) => {
     if (!cohort_name) {
         cohort_name = cohort.name_short
     }
-    // const cohort_name = cohort.name_short
     cohort_name = cohort_name.replaceAll('_', ' ');
     const cohort_url = '/cohort/'+cohort.name_short;
     const cohort_desc = cohort.description
@@ -549,15 +558,18 @@ export const display_cohort = (cohort, cohort_name) => {
         cohort_tooltip_text = cohort.name_full;
     }
 
+    // Additional cohort information
+    cohorts_additional = cohorts_additional && cohorts_additional != '' ? ' ('+cohorts_additional+')':'';
+
     return (
         <>
             {cohort_tooltip_text ?
                 <TooltipText
                     ttype='link'
                     title={cohort_tooltip_text}
-                    text={<Href key={cohort_name+'_link'} href={cohort_url} text={cohort_name}/>}
+                    text={<><Href key={cohort_name+'_link'} href={cohort_url} text={cohort_name}/><small>{cohorts_additional}</small></>}
                 />
-                : <Href key={cohort_name+'_link'} href={cohort_url} text={cohort_name}/>
+                : <><Href key={cohort_name+'_link'} href={cohort_url} text={cohort_name}/><small>{cohorts_additional}</small></>
             }
         </>
     )

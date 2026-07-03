@@ -15,16 +15,16 @@ const get_cohorts_list = (sample_data) => {
             if (!cohorts.includes(cohort_name)) {
                 cohorts.push(cohort_name)
             }
-        } 
+        }
     }
     return cohorts.sort().join(', ');
 }
 
 
 export const platforms_columns = [
-    { 
-        field: 'name', 
-        headerName: 'Name', 
+    {
+        field: 'name',
+        headerName: 'Name',
         minWidth: 150,
         flex: 1,
         renderCell: (params) => {
@@ -40,15 +40,15 @@ export const platforms_columns = [
         },
     },
     {
-        field: 'technic',
-        headerName: 'Technic',
+        field: 'technique',
+        headerName: 'Technique',
         minWidth: 325,
         renderCell: (params) => {
-            return params.row.technic ? params.row.technic : default_cell_value;
+            return params.row.technique ? params.row.technique : default_cell_value;
         }
     },
-    { 
-        field: 'type', 
+    {
+        field: 'type',
         headerName: 'Type',
         minWidth: 180,
         flex: 1,
@@ -70,25 +70,25 @@ export const publication_platform_columns = [
             return omicspred_internal_link({'label': params.row.platform.name},'platform');
         }
     },
-    { 
-        field: 'full_name', 
-        headerName: 'Full Name', 
+    {
+        field: 'full_name',
+        headerName: 'Full Name',
         minWidth: 200
     },
-    { 
-        field: 'version', 
+    {
+        field: 'version',
         headerName: 'Version',
     },
-    { 
-        field: 'technic', 
-        headerName: 'Technic', 
+    {
+        field: 'technique',
+        headerName: 'Technique',
         minWidth: 450,
         renderCell: (params) => {
-            return params.row.platform.technic ? params.row.platform.technic : default_cell_value;
+            return params.row.platform.technique ? params.row.platform.technique : default_cell_value;
         }
     },
-    { 
-        field: 'type', 
+    {
+        field: 'type',
         headerName: 'Type',
         minWidth: 180,
         flex: 1,
