@@ -178,7 +178,7 @@ export const common_cols = {
         field: 'id',
         headerName: 'OmicsPred ID',
         minWidth: 125,
-        flex: 0.5,
+        // flex: 0.5,
         resizable: false,
         hideable: false,
         renderCell: (params) => {
@@ -254,11 +254,19 @@ export const common_cols = {
             return row.method_name
         }
     },
+    'training_window': {
+        field: 'training_window',
+        headerName: 'Training window',
+        minWidth: 135,
+        valueGetter: (value, row) => {
+            return row.training_window
+        }
+    },
     'dataset_id': {
         field: 'dataset_id',
         headerName: 'Dataset ID (name)',
         minWidth: 150,
-        flex: 1,
+        // flex: 1,
         renderCell: (params) => {
             let dataset_id = '';
             let dataset_name = undefined;
@@ -311,7 +319,7 @@ export const common_cols = {
         field: 'platform__platform_master__type',
         headerName: 'Omics',
         minWidth: 145,
-        flex: 1,
+        // flex: 1,
         renderCell: (params) => {
             let platform = params.row.platform;
             if (!platform) {
@@ -324,14 +332,14 @@ export const common_cols = {
             if (!platform) {
                 platform = row.score.platform;
             }
-            return platform
+            return platform ? platform.type : '';
         }
     },
     'platform_name': {
         field: 'platform__name',
         headerName: 'Platform', // Kept for the column filtering
         minWidth: 160,
-        flex: 0.6,
+        // flex: 0.6,
         renderHeader: () => {
             return (
                 <span>
@@ -359,7 +367,7 @@ export const common_cols = {
         field: 'platform__name',
         headerName: 'Platform',
         minWidth: 165,
-        flex: 0.6,
+        // flex: 0.6,
         renderHeader: () => {
             return (
                 <span>
@@ -387,16 +395,20 @@ export const common_cols = {
         field: 'platform__version',
         headerName: 'Platform version',
         minWidth: 150,
-        flex: 0.6,
         renderCell: (params) => {
-            if (params.row.platform_version) {
-                return params.row.platform_version;
+            let platform_version = params.row.platform_version;
+            if (!platform_version && params.row.platform.version) {
+                platform_version = params.row.platform.version;
             }
-            else {
-                return default_cell_value;
-            }
+            return platform_version ? platform_version : default_cell_value;
         },
-        valueGetter: (value, row) => { return row.platform_version }
+        valueGetter: (value, row) => {
+            let platform_version = row.platform_version;
+            if (!platform_version && row.platform.version) {
+                platform_version = row.platform.version;
+            }
+            return platform_version ? platform_version : ''
+        }
     },
     'publication': {
         field: 'publication__id',
@@ -437,7 +449,7 @@ export const common_cols = {
         field: 'scoring_file',
         headerName: 'Scoring File',
         minWidth: 100,
-        flex: 0.5,
+        // flex: 0.5,
         renderCell: () => {
             return <FileEarmarkText color="blue" size={24}/>;
         }
@@ -447,14 +459,14 @@ export const common_cols = {
         headerName: 'Reported trait ID',
         headerClassName: 'col_border_left',
         minWidth: 120,
-        flex: 0.5,
+        // flex: 0.5,
         hideable: true
     },
     'trait_reported': {
         field: 'trait_reported',
         headerName: 'Reported trait',
         minWidth: 200,
-        flex: 1,
+        // flex: 1,
         hideable: true
     },
     'tissue_label': {
@@ -643,7 +655,7 @@ export const common_cols = {
     'gene_name_from_list': {
         field: 'gene_name',
         minWidth: 120,
-        flex: 0.5,
+        // flex: 0.5,
         headerName: 'Gene name',
         renderHeader: () => {
             return (molecular_trait_header('Gene'))
@@ -727,7 +739,7 @@ export const common_cols = {
         field: 'metabolites__name',
         headerClassName: 'col_border_right',
         minWidth: 200,
-        flex: 1,
+        // flex: 1,
         hideable: false,
         headerName: 'Metabolite name',
         renderHeader: () => {
@@ -767,7 +779,7 @@ export const common_cols = {
         field: 'molecular_trait_name',
         headerName: 'Molecular Trait Name',
         minWidth: 300,
-        flex: 0.5,
+        // flex: 0.5,
         // flex: 1,
         sortable: false,
         valueGetter: (value, row) => {
@@ -792,7 +804,7 @@ export const common_cols = {
     'metabolite_id_from_list': {
         field: 'metabolite_id',
         minWidth: 120,
-        flex: 0.5,
+        // flex: 0.5,
         renderHeader: () => {
             return (molecular_trait_header('Metabolite ID'))
         },
@@ -807,7 +819,7 @@ export const common_cols = {
         field: 'metabolite_id_source',
         headerName: 'Metabolite ID Source',
         minWidth: 120,
-        flex: 0.5,
+        // flex: 0.5,
         renderCell: (params) => {
             return params.row.external_id_source;
         },
@@ -818,7 +830,7 @@ export const common_cols = {
     'metabolite_name_from_list': {
         field: 'metabolite_name',
         minWidth: 120,
-        flex: 0.5,
+        // flex: 0.5,
         renderHeader: () => {
             return (molecular_trait_header('Metabolite'))
         },
@@ -955,7 +967,7 @@ export const common_cols = {
         headerName: 'Pathway',
         minWidth: 200,
         sortable: false,
-        flex: 1,
+        // flex: 1,
         valueGetter: (value, row) => {
             let result = '';
             const metabolites = row.metabolites;
@@ -975,7 +987,7 @@ export const common_cols = {
         headerClassName: 'col_border_right',
         minWidth: 200,
         sortable: false,
-        flex: 1,
+        // flex: 1,
         valueGetter: (value, row) => {
             let result = '';
             const metabolites = row.metabolites;
@@ -1005,7 +1017,7 @@ export const common_cols = {
         field: 'pathway_id_source',
         headerName: 'Pathway Source',
         minWidth: 120,
-        flex: 0.5,
+        // flex: 0.5,
         renderCell: (params) => {
             const source = params.row.external_id_source;
             return (source == 'Reactome') ? <Href href={process.env.URL_REACTOME_ENTRY+params.row.external_id} text={source}/> : source
@@ -1095,7 +1107,7 @@ export const common_cols = {
         headerName: '#Scores',
         description: 'Number of genetic scores',
         type: 'number',
-        minWidth: 100,
+        minWidth: 90,
         // flex: 0.5,
         align: 'right',
         renderCell: (params) => {
@@ -1429,7 +1441,7 @@ export const cohort_cols = {
             field: 'VIKING_Match Rate',
             headerName: variant_rate_label,
             minWidth: 100,
-            flex: 0.5,
+            // flex: 0.5,
             valueGetter: (value, row) => {
                 return cohort_valueGetter(row,'VIKING',variant_rate_label);
             }
@@ -1463,7 +1475,7 @@ export const cohort_cols = {
             field: 'MEC_CN_Match Rate',
             headerName: variant_rate_label,
             minWidth: 100,
-            flex: 0.5,
+            // flex: 0.5,
             valueGetter: (value, row) => {
                 return cohort_valueGetter(row,'MEC_CN',variant_rate_label);
             }

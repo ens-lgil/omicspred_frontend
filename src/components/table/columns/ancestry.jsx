@@ -25,9 +25,16 @@ const render_ancestry = (ancestry_data, publication_id, type) => {
 
 
 const value_getter_ancestry = (ancestry_data) => {
-    const ancestry_names = Object.keys(ancestry_data)
-    const anc_list = ancestry_names.map((anc_name) => <>{anc_name}:{ancestry_data[anc_name].count}</>);
-    return anc_list.join(',');
+    const ancestry_names = Object.keys(ancestry_data);
+    let anc_list = '';
+    for (let i=0; i<ancestry_names.length; i++) {
+        const anc_name = ancestry_names[i];
+        if (anc_list != '') {
+            anc_list += ',';
+        }
+        anc_list += anc_name+':'+ancestry_data[anc_name].count
+    }
+    return anc_list;
 }
 
 
@@ -96,13 +103,19 @@ export const ancestry_cols = {
         headerName: 'Ancestry',
         width: 175,
         renderCell: (params) => {
-            const ancestry = params.row.sample.ancestry_broad;
+            let ancestry = (params.row.sample) ? params.row.sample.ancestry_broad : undefined;
+            if (!ancestry) {
+                ancestry = params.row.ancestry_broad;
+            }
             const ancestry_label = get_ancestry_name(ancestry);
-            
             return <><span className={'me-2 align-middle anc_label anc_'+ancestry_label} title={ ancestry_label == 'MAO' &&  ancestry != 'Multi-ancestry' ? 'Multi-ancestry': ancestry} style={{lineHeight:"16px",marginBottom:"1px"}}></span><span className='align-middle'>{ancestry}</span></>;
         },
         valueGetter: (value, row) => {
-            return row.sample.ancestry_broad;
+            let ancestry = (row.sample) ? row.sample.ancestry_broad : undefined;
+            if (!ancestry) {
+                ancestry = row.ancestry_broad;
+            }
+            return ancestry;
         }
     },
     'ancestries': {

@@ -1,5 +1,6 @@
 import Href from "../../components/Href";
 import { url_tooltip } from "../../components/Common";
+import { ArrowRight } from "react-bootstrap-icons";
 
 export const faqs_categories = {
   "gen_q": "General questions", 
@@ -14,38 +15,47 @@ export const faqs_categories_keys = ["gen_q", "score_dev", "contrib"]
 
 export const faqs_list = [
     {
-      title: "What can we do with these genetic score models?",
-      type: "gen_q",
-      text: <>
-        These genetic score models can be used to predict levels of biomolecular traits in genotyped cohorts. The predicted levels can be associated with complex phenotypes, which offer a useful tool to investigate the molecular underpinnings of these phenotypes. The predicted levels can also allow integrative analyses with other available biomolecular traits in the cohort.<br />
-        Alternatively, genetic score models can be applied directly to genome-wide association study (GWAS) summary statistics without the need for individual-level data using tools like S-PrediXcan.
-      </>
+		title: "What can we do with these genetic score models?",
+		type: "gen_q",
+		text: <>
+			These genetic score models can be used to predict levels of biomolecular traits in genotyped cohorts. The predicted levels can be associated with complex phenotypes, which offer a useful tool to investigate the molecular underpinnings of these phenotypes. The predicted levels can also allow integrative analyses with other available biomolecular traits in the cohort.<br />
+			Alternatively, genetic score models can be applied directly to genome-wide association study (GWAS) summary statistics without the need for individual-level data using tools like S-PrediXcan.
+		</>
     },
     {
-      title: "How can I download model files of these genetic scores?",
-      type: "gen_q",
-      text: [
-        "You can find download links on the Dataset, Platform and Publication pages. You can also find the links on the ",
-        <Href key='download' href='/downloads' text='Downloads page'/>,
-        <>.<br />The genetic scores are mainly under the category </>,
-        <b key='pgsc_calc_file'>Scoring files<small> (pgsc_calc compatible)</small></b>,
-        '. Each of these zipped files contains all the scoring files associated with a dataset/platform and are compatible with the ',
-        <><Href href='https://pgsc-calc.readthedocs.io/en/latest/' text='pgsc_calc'/> tool.<br/></>,
-        'The genetic scores are also available in ',
-        <><Href href='https://predictdb.org/' text='PredictDB'/> SQLite format, compatible with the </>,
-        <><Href href='https://github.com/hakyimlab/MetaXcan' text='MetaXcan'/> tools.</>
-      ],
+		title: "How can I download model files of these genetic scores?",
+		type: "gen_q",
+		text: <>
+				You can find download links on the Dataset, Platform and Publication pages. You can also find the links on the <Href key='download' href='/downloads' text='Downloads page'/>.<br />
+				The genetic scores are mainly under the category <span className="fw-bold" key='pgsc_calc_file'>Scoring files<small> (pgsc_calc compatible)</small></span>.
+				Each of these zipped files contains all the scoring files associated with a dataset/platform and are compatible with the <Href href='https://pgsc-calc.readthedocs.io/en/latest/' text='pgsc_calc'/> tool.<br/>
+				The genetic scores are also available in <Href href='https://predictdb.org/' text='PredictDB'/> SQLite format, compatible with the <Href href='https://github.com/hakyimlab/MetaXcan' text='MetaXcan'/> tools.
+		</>
     },
     {
-      title: "How to calculate genetic scores on a new cohort?",
-      type: "gen_q",
-      text: <>The {url_tooltip('pgs_catalog')} provides a tool called {url_tooltip('pgsc_calc')} to calculate genetic scores, with extended options.</>
+		title: "How to calculate genetic scores on a new cohort?",
+		type: "gen_q",
+		text: <>The {url_tooltip('pgs_catalog')} provides a tool called {url_tooltip('pgsc_calc')} to calculate genetic scores, with extended options.</>
     },
     {
-      title: "How to apply the score models with GWAS summary stats?",
-      type: "gen_q",
-      text: <><Href href='https://github.com/hakyimlab/MetaXcan' text='Metaxcan'/> provides a tool called S-PrediXcan to calculate score association results directly from GWAS summary statistics.  Metaxcan-compatible PredictDB SQLite and covariance files are available in the <Href href='/downloads#genetic_scores' text='Downloads - Genetic scores'/> section.</>
+		title: "How to apply the score models with GWAS summary stats?",
+		type: "gen_q",
+		text: <><Href href='https://github.com/hakyimlab/MetaXcan' text='Metaxcan'/> provides a tool called S-PrediXcan to calculate score association results directly from GWAS summary statistics.  Metaxcan-compatible PredictDB SQLite and covariance files are available in the <Href href='/downloads#genetic_scores' text='Downloads - Genetic scores'/> section.</>
     },
+	{
+		title: "Where does the score metadata come from?",
+		type: "gen_q",
+		text: <>
+			<p className="mb-2">
+				For each score, we first map the study-specific identifiers to an OmicsPred <Href text="Molecular Trait" href="/docs#struct_molecular_trait"/>, indexed by external identifiers: Ensembl (genes & transcripts), Uniprot (protein), ChEBI (metabolites). These identifiers are used to make the following mappings:
+			</p>
+			<ul>
+				<li><span className="fw-bold">Gene - Protein</span>: using the Ensembl database</li>
+				<li><span className="fw-bold">Gene - Pathway</span> & <span className="fw-bold">Metabolite - Pathway</span>: using <Href href="https://reactome.org/download-data" text="Reactome mapping data"/> <small>(Mapping Files <ArrowRight /> Identifier mapping files <ArrowRight /> All levels of the pathway hierarchy)</small>.</li>
+			</ul>
+			For information on the database versions used, please see the <Href text="Molecular Trait" href="/docs#struct_molecular_trait"/> page or the REST API endpoint <code>/api/external_source/all</code>.
+		</>
+	},
     {
       title: "What method was used for genetic score development and why?",
       type: "score_dev",

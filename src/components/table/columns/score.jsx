@@ -8,7 +8,7 @@ const default_cell_value = process.env.DEFAULT_CELL_VALUE;
 
 const match_rate_col = 'Match Rate';
 
-const metric_valueGetter = function(performance_metrics,method,eval_type) {
+const metric_value = (performance_metrics,method,eval_type,is_export) => {
     for (let i=0; i<performance_metrics.length; i++) {
         const metric = performance_metrics[i];
         if (metric.name_short == method) {
@@ -18,7 +18,15 @@ const metric_valueGetter = function(performance_metrics,method,eval_type) {
     if (method == match_rate_col && eval_type == 'Training') {
         return 1;
     }
-    return default_cell_value;
+    return is_export ? '' : default_cell_value;
+}
+
+const metric_valueGetter = (performance_metrics,method,eval_type) => {
+    return metric_value(performance_metrics,method,eval_type,true);
+}
+
+const metric_renderCell = (performance_metrics,method,eval_type) =>  {
+    return metric_value(performance_metrics,method,eval_type,false);
 }
 
 // const score_platform_name = {...common_cols['platform_name'], headerName:'Platform'}
@@ -51,7 +59,11 @@ const score_cols = {
         type: 'number',
         width: 100,
         renderCell: (params) => {
-            return participantsBadge(params.row.sample.sample_number);
+            let sample_number = params.row.sample ? params.row.sample.sample_number : undefined;
+            if (!sample_number) {
+                sample_number = params.row.sample_number
+            }
+            return participantsBadge(sample_number);
         },
         valueGetter: (value, row) => {
             return row.sample.sample_number;
@@ -96,6 +108,9 @@ const score_cols = {
         field: 'variant_match_rate',
         headerName: match_rate_col,
         width: 100,
+        renderCell: (params) => {
+            return metric_renderCell(params.row.performance_metrics,match_rate_col,params.row.evaluation_type);
+        },
         valueGetter: (value, row) => {
             return metric_valueGetter(row.performance_metrics,match_rate_col,row.evaluation_type);
         }
@@ -104,6 +119,9 @@ const score_cols = {
         field: 'missing_rate',
         headerName: 'Missing Rate',
         width: 105,
+        renderCell: (params) => {
+            return metric_renderCell(params.row.performance_metrics,'Missing Rate',params.row.evaluation_type);
+        },
         valueGetter: (value, row) => {
             return metric_valueGetter(row.performance_metrics,'Missing Rate',row.evaluation_type);
         }

@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import restApiCall from '../../components/RestAPI';
-import {cohort_cols, common_column_groups, cohort_valueGetter} from '../../components/table/columns/common';
+import { cohort_cols, common_column_groups, cohort_valueGetter } from '../../components/table/columns/common';
+import { dataset_cohort_columns } from '../../components/table/columns/datasets';
 import { metabolomics_columns, metabolomics_column_groups } from '../../components/table/columns/metabolomics';
 import { proteomics_pub_columns } from '../../components/table/columns/proteomics';
 import { transcriptomics_dataset_columns } from '../../components/table/columns/transcriptomics';
 import { phenotype_dataset_cols } from '../../components/table/columns/phenotype';
 import DataTableServer from '../../components/table/DataTableServer';
+import DataTable from '../../components/table/DataTable';
 import { op_title, op_subtitle_no_asso, get_cohorts_cols_list, get_cohorts_col_groups_list, Header2Cards, internal_publication_link, internal_platform_link, internal_tissue_link, no_entry_found, element_icon, display_cohort } from '../../components/Common';
-import { consoleDev, scoresBadge, phewasBadge, loading_data, add_s_when_plural, ToggleDiv } from '../../components/Generic';
+import { consoleDev, scoresBadge, phewasBadge, loading_data, add_s_when_plural, ToggleDiv, ToggleID } from '../../components/Generic';
 import AncestryLegend from '../../components/ancestry/AncestryLegend';
 import Href from '../../components/Href';
 import { DownloadList, get_download_list } from '../../components/Downloads';
@@ -26,6 +28,7 @@ function Dataset() {
     const [cohortsList, setCohortsList] = useState([])
     const [cohortsTrainingList, setCohortsTrainingList] = useState([])
     const [cohortsValidationList, setCohortsValidationList] = useState([])
+    const [cohortData, setCohortData] = useState([])
     const [noEntry, setNoEntry] = useState(false)
 
     const element = 'dataset';
@@ -65,6 +68,17 @@ function Dataset() {
             )
         }
     }
+
+    const update_sample_cohorts = (sample) => {
+        let sample_cohorts = sample['cohorts'];
+        const cohorts_additional = sample['cohorts_additional'];
+        if (cohorts_additional) {
+            for (let i=0; i<sample_cohorts.length; i++) {
+                sample_cohorts[i]['additional'] = cohorts_additional;
+            }
+        }
+        return sample_cohorts;
+    }
  
 
     const get_information_left_content = () => {
@@ -75,6 +89,7 @@ function Dataset() {
                 <tr><td>Platform</td><td>{internal_platform_link(datasetData.platform, 1)}</td></tr>
                 <tr><td>Tissue </td><td>{internal_tissue_link(datasetData.tissue, 1)}</td></tr>
                 <tr><td>Method</td><td>{datasetData.method_name}</td></tr>
+                <tr><td>Training window</td><td>{datasetData.training_window}</td></tr>
                 { cohortsList ? <tr><td>Cohort{add_s_when_plural(Object.keys(cohortsList).length)}</td><td>{cohorts_list(cohortsTrainingList,'Training')}{cohorts_list(cohortsValidationList,'Validation')}</td></tr>: ''}
                 <tr><td>Number of scores</td><td>{scoresBadge(datasetData.scores_count)}<span className='ps-3'><Href href="#linked_scores" text="See linked Scores" icon={<Table/>}/></span></td></tr>
                 <tr><td>Number of linked PheWAS</td><td>{phewasBadge(datasetData.phewas_count)}{datasetData.phewas_count != 0 ? <span className='ps-3'><Href href="#linked_phewas_data" text="See linked PheWAS" icon={<Table/>}/></span>:''}</td></tr>
@@ -149,13 +164,34 @@ function Dataset() {
         let cohorts = {};
         // Training cohorts
         let training_cohorts = []
+        let training_cohorts_detailed = {};
         for (let i=0; i<dataset['samples_training'].length; i++) {
-            const sample_cohorts = dataset['samples_training'][i]['cohorts'];
+            const sample = dataset['samples_training'][i]
+            const ancestry = sample['ancestry_broad'];
+            const sample_cohorts = update_sample_cohorts(sample);
             cohorts = get_cohorts_cols_list(sample_cohorts, cohorts);
-            // Get simple list of validation cohorts
+            // Get simple list of training cohorts
             for (let j=0; j<sample_cohorts.length; j++) {
                 const sample_t_cohort = sample_cohorts[j];
-                training_cohorts[sample_t_cohort['name_short']] = sample_t_cohort;
+                const name_short = sample_t_cohort['name_short'];
+                const entry_name = name_short+'_'+ancestry;
+                training_cohorts[name_short] = sample_t_cohort;
+                if (!training_cohorts_detailed[entry_name]){
+                    training_cohorts_detailed[entry_name] = { 
+                        'cohort': sample_t_cohort,
+                        'sample_number': sample['sample_number'],
+                        'ancestry_broad': ancestry,
+                        'ancestry_assignment': sample['ancestry_assignment'],
+                        'cohorts_additional': sample['cohorts_additional'],
+                        'type': 'Training'
+                    }
+                }
+                else {
+                    const sample_number = sample['sample_number'] 
+                    if (sample_number > training_cohorts_detailed[entry_name]['sample_number']) {
+                        training_cohorts_detailed[entry_name]['sample_number'] = sample_number
+                    }
+                }
             }
         }
         setCohortsTrainingList(training_cohorts);
@@ -164,15 +200,39 @@ function Dataset() {
 
         // Validation cohorts
         let validation_cohorts = {};
+        let validation_cohorts_detailed = {}
         for (let i=0; i< dataset['samples_validation'].length;i++) {
-            const sample_cohorts = dataset['samples_validation'][i]['cohorts'];
+            const sample = dataset['samples_validation'][i];
+            const ancestry = sample['ancestry_broad'];
+            const sample_cohorts = update_sample_cohorts(sample);
             cohorts = get_cohorts_cols_list(sample_cohorts, cohorts);
             // Get simple list of validation cohorts
             for (let j=0; j<sample_cohorts.length; j++) {
                 const sample_v_cohort = sample_cohorts[j];
-                validation_cohorts[sample_v_cohort['name_short']] = sample_v_cohort;
+                const name_short = sample_v_cohort['name_short'];
+                const entry_name = name_short+'_'+ancestry;
+                validation_cohorts[name_short] = sample_v_cohort;
+                if (!validation_cohorts_detailed[entry_name]){
+                    validation_cohorts_detailed[entry_name] = { 
+                        'cohort': sample_v_cohort,
+                        'sample_number': sample['sample_number'],
+                        'ancestry_broad': ancestry,
+                        'ancestry_assignment': sample['ancestry_assignment'],
+                        'cohorts_additional': sample['cohorts_additional'],
+                        'type': 'Validation'
+                    }
+                }
+                else {
+                    const sample_number = sample['sample_number'] 
+                    if (sample_number > validation_cohorts_detailed[entry_name]['sample_number']) {
+                        validation_cohorts_detailed[entry_name]['sample_number'] = sample_number
+                    }
+                }
             }
         }
+        const cohort_data = Object.values(training_cohorts_detailed).concat(Object.values(validation_cohorts_detailed))
+        console.log(cohort_data)
+        setCohortData(cohort_data)
         setCohortsValidationList(validation_cohorts);
         setCohortsList(cohorts)
         // Fetch columns details
@@ -203,6 +263,8 @@ function Dataset() {
                 }
             }
         }
+        console.log("> Columns")
+        console.log(columns)
         setScoreTableColumns(columns)
     }
 
@@ -239,7 +301,8 @@ function Dataset() {
         // Training cohorts
 
         for (let i=0; i<dataset['samples_training'].length;i++) {
-            const sample_cohorts = dataset['samples_training'][i]['cohorts'];
+            const sample = dataset['samples_training'][i];
+            const sample_cohorts = update_sample_cohorts(sample);
             cohorts = get_cohorts_col_groups_list(sample_cohorts,cohorts);
         }
         // Fetch the training cohorts
@@ -251,7 +314,8 @@ function Dataset() {
 
         // Validation cohorts
         for (let i=0; i<dataset['samples_validation'].length;i++) {
-            const sample_cohorts = dataset['samples_validation'][i]['cohorts'];
+            const sample = dataset['samples_validation'][i];
+            const sample_cohorts = update_sample_cohorts(sample);
             cohorts = get_cohorts_col_groups_list(sample_cohorts,cohorts);
         }
 
@@ -284,10 +348,6 @@ function Dataset() {
         get_table_columns(dataset);
         const columns_groups = get_table_column_groups(dataset);
         setScoreTableColumnGroups(columns_groups);
-        // if (dataset.scoring_files_urls) {
-        //     const urls = get_download_list(dataset.scoring_files_urls)
-        //     setDatasetDownloads(urls);
-        // }
     }
 
 
@@ -302,10 +362,23 @@ function Dataset() {
                 <>
                     {op_title('dataset', datasetData, datasetData.id, true)}
                     <Header2Cards type_left='dataset' content_left={get_information_left_content()} type_right='Downloads' content_right={get_information_right_content()}/>
-                    {/* <HeaderCard type='dataset' content={get_information_content()} /> */}
                 </>
                 : noEntry ?
                     <>{ no_entry_found('score',opd_id) }</> : loading_data()
+            }
+
+            {/* Cohorts and Ancestries */}
+            { cohortData && cohortData.length > 0 ?
+            <>
+                <div className='d-flex mt-5'>
+                    <ToggleID title={op_subtitle_no_asso('hl','Cohorts and ancestries',cohortData.length)} id='cohorts_table' type='header' target='the table of cohorts & ancestries linked to this dataset'/>
+                </div>
+                <div>
+                    <div className='d-flex d-none' id='cohorts_table'>
+                        <DataTable key='cohorts' data={cohortData} columns={dataset_cohort_columns}/>
+                    </div>
+                </div>
+            </> : ''
             }
 
             {/* Scores by Platform */}
