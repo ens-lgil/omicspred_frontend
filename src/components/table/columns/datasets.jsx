@@ -472,7 +472,7 @@ export const dataset_cohort_columns = [
         renderCell: (params) => {
             const stype = params.row.type;
             if (stype == 'Training') {
-                return (<span className='training_col fw-bold'>{stype}</span>)
+                return (<span className='training_col'>{stype}</span>)
             }
             else {
                 return stype;

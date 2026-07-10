@@ -31,3 +31,7 @@ eslint.config.js
 app.yaml_template
 LICENSE.md
 README.md
+
+# Image
+/dist/favicon.ico_*
+/dist/images/TEST_*

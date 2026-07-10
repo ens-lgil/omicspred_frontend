@@ -56,11 +56,6 @@ footer {
     }
 }
 
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
-
 h4 {
     font-size: 1.4rem !important;
 }
@@ -1327,7 +1322,8 @@ a.navbar-brand {
 }
 
 .training_col {
-    color: $op_color_3;
+    // color: $op_color_3;
+    font-weight: bold;
 }
 .col_border_left {
     border-left: 1px solid;

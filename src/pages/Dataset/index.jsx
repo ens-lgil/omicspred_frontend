@@ -11,7 +11,7 @@ import DataTableServer from '../../components/table/DataTableServer';
 import DataTable from '../../components/table/DataTable';
 import { op_title, op_subtitle_no_asso, get_cohorts_cols_list, get_cohorts_col_groups_list, Header2Cards, internal_publication_link, internal_platform_link, internal_tissue_link, no_entry_found, element_icon, display_cohort } from '../../components/Common';
 import { consoleDev, scoresBadge, phewasBadge, loading_data, add_s_when_plural, ToggleDiv, ToggleID } from '../../components/Generic';
-import AncestryLegend from '../../components/ancestry/AncestryLegend';
+// import AncestryLegend from '../../components/ancestry/AncestryLegend';
 import Href from '../../components/Href';
 import { DownloadList, get_download_list } from '../../components/Downloads';
 import { Table } from 'react-bootstrap-icons';
@@ -385,9 +385,9 @@ function Dataset() {
             { scoreDataEndpoint && scoreTableColumns && scoreTableColumnGroups ?
                 <div className='mt-5'>
                     {op_subtitle_no_asso('hl','Linked scores', datasetData.scores_count)}
-                    <div className='d-flex mb-3'>
+                    {/* <div className='d-flex mb-3'>
                         <AncestryLegend />
-                    </div>
+                    </div> */}
                     <div className='table_container'>
                         <DataTableServer key='scores' url_suffix={scoreDataEndpoint} columns={scoreTableColumns} groups={scoreTableColumnGroups}/>
                     </div>
