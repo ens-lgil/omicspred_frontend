@@ -32,10 +32,6 @@ import Plot from "../pages/Plot";
 import { Redirect } from './Generic';
 import { Error404 } from "../pages/Errors";
 
-// Legacy pages
-import PhenotypeOld from "../pages/Legacy/Applications/Phenotype";
-import PhenotypesFull from "../pages/Legacy/Applications/PhenotypesFull";
-import PhenotypesSum from "../pages/Legacy/Applications/PhenotypesSum";
 
 // Module to declare/route the website pages
 function OpRouters() {
@@ -65,10 +61,6 @@ function OpRouters() {
                 <Route path="/tissues" element={<Tissues />} />
                 <Route path="/phenotypes" element={<Phenotypes />} />
                 <Route path="/phewas" element={<PheWAS />} />
-
-                {/* Legacy pages */}
-                <Route path="/legacy/phenotype/full" element={<PhenotypesFull />} />
-                <Route path="/legacy/phenotype/sum" element={<PhenotypesSum />} />
                 
                 {/* Individual pages */}
                 <Route path="/cohort/:cohort" element={<Cohort />} />
@@ -78,7 +70,6 @@ function OpRouters() {
                 <Route path="/metabolite/:metabolite" element={<Metabolite />} />
                 <Route path="/pathway/:pathway" element={<Pathway />} />
                 <Route path="/phenotype/:phenotype" element={<Phenotype />} />
-                <Route path="/phenotype_old/:phenotype" element={<PhenotypeOld />} />
                 <Route path="/platform/:platform" element={<Platform />} />
                 <Route path="/protein/:protein" element={<Protein />} />
                 <Route path="/publication/:opp_id" element={<Publication />} />
