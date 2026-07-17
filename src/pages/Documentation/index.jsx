@@ -165,9 +165,9 @@ function Documentation() {
         },
         'Tissue': {
             'label': 'tissue',
-            'desc': 'Tissue entries are mapped to ontologies in order to facilitate the tissue comparaison, grouping and filtering.',
+            'desc': '', // Replaced by some text in the 'fetchExternalSources()' function
             'struct': [
-                {'name': 'Identifier', 'desc': 'External identifier from an ontology (e.g. Uberon)'},
+                {'name': 'Identifier', 'desc': 'External identifier from the ontology (e.g. EFO)'},
                 {'name': 'Label', 'desc': 'Tissue short name/label'},
                 {'name': 'Description', 'desc': 'Detailed description of the Tissue'},
                 {'name': 'URL', 'desc': 'External URL to the ontology entry'}
@@ -177,11 +177,11 @@ function Documentation() {
             'label': 'phenotype',
             'desc': '', // Replaced by some text in the 'fetchExternalSources()' function
             'struct': [
-                {'name': 'Identifier', 'desc': 'External identifier of the Phenotype from an ontology (e.g. EFO).'},
+                {'name': 'Identifier', 'desc': 'External identifier of the Phenotype from the ontology (e.g. EFO).'},
                 {'name': 'Label', 'desc': 'Phenotype name/label.'},
                 {'name': 'Description', 'desc': 'Detailed description of the Phenotype'},
                 {'name': 'Category', 'desc': 'Phenotype category.'},
-                {'name': 'Source', 'desc': 'External source of the Phenotype (e.g. PheCode).'},
+                {'name': 'Source', 'desc': 'External source of the Phenotype (e.g. EFO).'},
                 {'name': 'URL', 'desc': 'External URL to the ontology entry'},
                 {'name': 'Reported traits', 'desc': 'List of traits mapped to the phenotype ontology'}
                 // {'name': 'Child phenotype(s)', 'desc': 'Children entries of the Phenotype from the ontology.'}
@@ -240,6 +240,10 @@ function Documentation() {
             // Phenotype
             documentation_op['Phenotype'].desc = <>
                 <p>Phenotypes used in the Phenome-wide association analysis (PheWAS) part of {project_name}. All the phenotypes are mapped to the <Href text="EFO ontology" href={es_data['EFO'].url}/> (version <code>{es_data['EFO'].version}</code>) to facilitate grouping and comparability.</p>
+            </>
+            // Tissue
+            documentation_op['Tissue'].desc = <>
+                <p>Tissue entries are mapped the <Href text="EFO ontology" href={es_data['EFO'].url}/> (version <code>{es_data['EFO'].version}</code>) in order to facilitate the tissue comparaison, grouping and filtering.</p>
             </>
             // Molecular traits
             documentation_op['Molecular Trait'].external_source = <>
