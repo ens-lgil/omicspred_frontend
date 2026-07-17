@@ -30,7 +30,7 @@ const cohorts_list = [
    {
     // "src": p1,
     "title": "INTERVAL Study",
-    "labels": ["INTERVAL","INTERVAL withheld subset"],
+    "labels": ["INTERVAL"],
     "href": "https://www.intervalstudy.org.uk/",
     "desc": <>A cohort of healthy blood donors (N~50,000; recruited 2012-2014) which was set up by the Universities of Cambridge and Oxford in collaboration with NHS Blood and Transplant (NHSBT). INTERVAL’s design is a randomised trial to study the safety of varying the time interval between blood donations. INTERVAL participants include approx. 25,000 men and 25,000 women, recruited at aged 18 years and older (median 44 years of age) across 25 NSHBT blood donation centres across England. Methods of collection have been <Href text="described previously" href="http://www.intervalstudy.org.uk/files/2019/11/Moore-et-al.-Trials-2014.pdf" />. As described here, blood samples have been extensively profiled using various omics technologies.</>
   },
@@ -90,7 +90,7 @@ const cohorts_list = [
   {
     // "src": p4,
     "title": "UK Biobank",
-    "labels": ["UKB","UKB withheld"],
+    "labels": ["UKB"],
     "href": "https://www.ukbiobank.ac.uk",
     "desc": <>A prospective cohort study with deep genetic and phenotypic data collected on approximately 500,000 individuals from across the United Kingdom, aged between 40 and 69 at recruitment. A rich variety of phenotypic and health-related information is available on each participant, including biological measurements, lifestyle indicators, biomarkers in blood and urine, and imaging of the body and brain. Follow-up information is provided by linking health and medical records. Genome-wide genotype data have been collected on all participants, providing many opportunities for the discovery of new genetic associations and the genetic bases of complex traits.</>
   },

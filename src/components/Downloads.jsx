@@ -1,4 +1,4 @@
-import { Download, FileEarmarkSpreadsheet, FileZip, FileEarmarkZip, FileEarmarkZipFill, FiletypeCsv, FiletypeXlsx, Folder2, InfoCircleFill } from 'react-bootstrap-icons';
+import { Download, FileEarmarkSpreadsheet, FileZip, FileEarmarkZip, FileEarmarkZipFill, FiletypeCsv, Folder2, InfoCircleFill } from 'react-bootstrap-icons';
 import { ToggleDiv } from './Generic';
 import { phewas_mention } from './Common';
 import Href from './Href';
@@ -59,24 +59,6 @@ export const download_labels = {
         "label": "GWAS summary stats",
         "title": "Browse data files",
         "icon": <Folder2 className="hl_color" size={icon_size}/>
-    }
-}
-
-// Applications (PheWAS)
-export const download_applications_labels = {
-    'phewas_sumstats': {
-        "label": "PheWAS summary stats",
-        "title": "Download CSV file",
-        "icon": <FiletypeCsv className="align-middle" size={icon_size}/>,
-        "url": "https://app.box.com/s/e0t5v55ul588z7ls0qk5slo9lmp8yync",
-        'desc': "List the number of OmicsPred genetic scores by Platform, for each Phenotype."
-    },
-    'phewas_associations': {
-        "label": "PheWAS associations",
-        "title": "Download Excel file",
-        "icon": <FiletypeXlsx className="align-middle" size={icon_size}/>,
-        "url": "https://app.box.com/s/2kbj2exeexuab51hjaveyzkftpc6ehdj",
-        'desc': "List the identified associations between Phenotype entries and OmicsPred genetic scores."
     }
 }
 
