@@ -30,7 +30,11 @@ function Documentation() {
                 {'name': 'Author(s)', 'desc': 'List of publication authors, the first author is also extracted for a shorter display.'},
                 {'name': 'Journal', 'desc': 'The name of the publication source.'},
                 {'name': 'Publication Date', 'desc': 'Date of publication (with respect to the PMID or doi).'}
-            ]
+            ],
+            'link': {
+                'url': '/publications',
+                'label': 'Browse Publications'
+            }
         },
         'Platform':{
             'label': 'platform',
@@ -41,7 +45,11 @@ function Documentation() {
                 {'name': 'Technique', 'desc': 'Short description of the technique used on the platform.'},
                 {'name': 'Type', 'desc': 'Omics type detected by the platform.'},
                 {'name': 'Version', 'desc': 'Platform version (if available).'}
-            ]
+            ],
+            'link': {
+                'url': '/platforms',
+                'label': 'Browse Platforms'
+            }
         },
         'Cohort': {
             'label': 'cohort',
@@ -50,7 +58,11 @@ function Documentation() {
                 {'name': 'Cohort name', 'desc': 'Cohort short name.'},
                 {'name': 'Cohort full name', 'desc': 'Full name of the cohort.'},
                 {'name': 'URL', 'desc': 'Link to the cohort/study website.'}
-            ]
+            ],
+            'link': {
+                'url': '/cohorts',
+                'label': 'Cohorts List'
+            }
         },
         'Sample': {
             'label': 'sample',
@@ -81,7 +93,11 @@ function Documentation() {
                 {'name': 'Molecular Traits',  'desc': <>Molecular Traits linked to the Genetic Score: <span className='fw-bold'>Gene</span>, <span className='fw-bold'>Transcript</span>, <span className='fw-bold'>Protein</span>, <span className='fw-bold'>Metabolite</span>.</>},
                 {'name': 'Ancestry distribution', 'desc': 'Distribution of the ancestries in the training and validation of the Genetic Score.'},
                 {'name': 'License/Terms of Use', 'desc': 'License/Terms of Use that applies to the Genetic Score.'}
-            ]
+            ],
+            'link': {
+                'url': '/scores',
+                'label': 'Browse Genetic Scores'
+            }
         },
         'Dataset': {
             'label': 'dataset',
@@ -102,7 +118,11 @@ function Documentation() {
                 // {'name': 'Species', 'desc': 'Species targeted in this study'},
                 {'name': 'Data files URLs', 'desc': 'JSON structure listing the URLs of the different types of datafiles available for download.'},
                 {'name': 'License/Terms of Use', 'desc': 'License/Terms of Use that applies to the Genetic Scores of the Dataset.'}
-            ]
+            ],
+            'link': {
+                'url': '/datasets',
+                'label': 'Browse Datasets'
+            }
         },
         'Performance Metrics': {
             'label': 'perf',
@@ -136,7 +156,11 @@ function Documentation() {
                 {'name': 'Parent External Identifier', 'desc': 'List of parent Pathway external ID(s)'},
                 {'name': 'Top Level', 'desc': 'Flag to indicate if the Pathway is top-level or not in Reactome'},
                 {'name': 'Super Pathways', 'desc': 'List of top-level parent Pathway'}
-            ]
+            ],
+            'link': {
+                'url': '/pathways',
+                'label': 'Browse Pathways'
+            }
         },
         'Molecular Trait': {
             'label': 'molecular_trait',
@@ -171,7 +195,11 @@ function Documentation() {
                 {'name': 'Label', 'desc': 'Tissue short name/label'},
                 {'name': 'Description', 'desc': 'Detailed description of the Tissue'},
                 {'name': 'URL', 'desc': 'External URL to the ontology entry'}
-            ]
+            ],
+            'link': {
+                'url': '/tissues',
+                'label': 'Browse Tissues'
+            }
         },
         'Phenotype': {
             'label': 'phenotype',
@@ -185,7 +213,11 @@ function Documentation() {
                 {'name': 'URL', 'desc': 'External URL to the ontology entry'},
                 {'name': 'Reported traits', 'desc': 'List of traits mapped to the phenotype ontology'}
                 // {'name': 'Child phenotype(s)', 'desc': 'Children entries of the Phenotype from the ontology.'}
-            ]
+            ],
+            'link': {
+                'url': '/phenotypes',
+                'label': 'Browse Phenotypes'
+            }
         },
         'Score PheWAS': {
             'label': 'score_phewas',
@@ -213,7 +245,11 @@ function Documentation() {
                 },
                 {'name': 'Variants number used', 'desc': 'Number of variants from the genetic score used in the PheWAS.'},
                 {'name': 'Variants fraction found', 'desc': 'Fraction of variants used from the genetic score used in the PheWAS.'}
-            ]
+            ],
+            'link': {
+                'url': '/phewas',
+                'label': 'Browse PheWAS'
+            }
         }
     }
 
