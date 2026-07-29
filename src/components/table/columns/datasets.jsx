@@ -268,13 +268,13 @@ export const datasets_columns = [
             const files_urls = params.row.scoring_files_urls;
             let other_files = [];
             if (files_urls.validation_results) {
-                other_files.push(<div className='mb-1'>{download_link(files_urls.validation_results,'validation_results','Validation results')}</div>)
+                other_files.push(<div className='mb-1' key='validation_results'>{download_link(files_urls.validation_results,'validation_results','Validation results')}</div>)
             }
             if (files_urls.score_variant_info) {
-                other_files.push(<div className='mb-1'>{download_link(files_urls.score_variant_info,'score_variant_info', 'Score variant info')}</div>)
+                other_files.push(<div className='mb-1' key='score_variant_info'>{download_link(files_urls.score_variant_info,'score_variant_info', 'Score variant info')}</div>)
             }
             if (files_urls.gwas_sumstats) {
-                other_files.push(<div>{download_link(files_urls.gwas_sumstats,'gwas_sumstats','GWAS summary statistics')}</div>)
+                other_files.push(<div key='gwas_sumstats'>{download_link(files_urls.gwas_sumstats,'gwas_sumstats','GWAS summary statistics')}</div>)
             }
             return other_files.length > 0 ? other_files : default_cell_value;
         },

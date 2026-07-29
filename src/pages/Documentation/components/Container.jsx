@@ -1,3 +1,5 @@
+import { ArrowRight } from "react-bootstrap-icons";
+import Href from "../../../components/Href";
 
 const Container = (props) => {
     const title = props.title;
@@ -5,6 +7,7 @@ const Container = (props) => {
     const desc = props.content.desc;
     const content = props.content.struct;
     const external_source = props.content.external_source;
+    const link = props.content.link;
     const prefix = props.prefix;
 
     return (
@@ -16,6 +19,7 @@ const Container = (props) => {
                     { content.map((entry, index)=> <tr key={typeof(entry.name) == 'string' ? entry.name : index}><td className="d-none"></td><td>{entry.name}</td><td>{entry.desc}</td></tr>) }
                 </tbody>
             </table>
+            { link ? <div><ArrowRight className="me-2"/><Href text={link.label} href={link.url}/></div> : '' }
             { external_source ? <div>{external_source}</div> : '' }
         </div>
     );
