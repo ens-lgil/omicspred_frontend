@@ -42,27 +42,45 @@ const OPRadar = (props) => {
 
         
         if (props.data) {
-            const radar_data = props.data;
-            setRadarData(radar_data);
+            // const radar_data = props.data;
+            let radar_data = props.data;
             // let has_negative_data = false;
-            let has_only_small_data = true;
+            // let has_only_small_data = true;
+            let max_value = 0;
             for (let i=0; i<radar_data.datasets.length; i++) {
                 for (let j=0; j<radar_data.datasets[i].data.length; j++) {
                     // if (radar_data.datasets[i].data[j] < 0) {
                     //     has_negative_data = false;
                     // }
-                    if (radar_data.datasets[i].data[j] >= 0.5) {
-                        has_only_small_data = false;
-                        break;
+                    // if (radar_data.datasets[i].data[j] >= 0.5) {
+                    //     has_only_small_data = false;
+                    //     break;
+                    // }
+                    if (radar_data.datasets[i].data[j] > max_value) {
+                        max_value = radar_data.datasets[i].data[j];
+                    }
+                }
+            }
+            // Fetch the number of values
+            if (radar_data.labels.length < 3) {
+                radar_data.labels.push('');
+                for (let i=0; i<radar_data.datasets.length; i++) {
+                    // Add mockup data to add 3rd value
+                    if (radar_data.datasets[i]['label'] == 'Validation') {
+                        radar_data.datasets[i]['data'].push(0);
                     }
                 }
             }
             // if (has_negative_data) {
             //     options.scales.r.suggestedMin = -1
             // }
-            if (has_only_small_data) {
+            // if (has_only_small_data) {
+            //     options.scales.r.suggestedMax = 0.5
+            // }
+            if (max_value <= 0.5) {
                 options.scales.r.suggestedMax = 0.5
             }
+            setRadarData(radar_data);
             setRadarOptions(options)
         }
         // else {

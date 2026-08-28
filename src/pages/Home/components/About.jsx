@@ -7,7 +7,7 @@ const About = () => {
         <div className='even_section'>
             <div className="op_section_title" id='about'>About {project_name}</div>
             <p className="mt-3 text-justify text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-md lg:mx-0">
-                {project_name} is a centralized resource for hosting genetic prediction models of multi-omic traits (<span className="underline_Proteomics">proteomics</span>, <span className="underline_Metabolomics">metabolomics</span>, <span className="underline_Transcriptomics">transcriptomics</span>, etc.) and their associated results.
+                {project_name} is a centralized resource for hosting genetic prediction models of multi-omic traits (<span className="underline_Metabolomics">metabolomics</span>, <span className="underline_Proteomics">proteomics</span>, <span className="underline_Transcriptomics">transcriptomics</span>, etc.) and their associated results.
                 The platform brings together published prediction models across a wide range of biomolecular traits, along with key information such as model training and validation details, and associations with complex diseases, while integrating with external biological knowledge bases to support interpretation and broader utility.
             </p>
             <div className="d-flex justify-content-center">

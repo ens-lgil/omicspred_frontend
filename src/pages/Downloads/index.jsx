@@ -71,7 +71,7 @@ function Downloads() {
 
     const dataset_cols_ids = ['publication__pmid','platform__name','name'];
 
-    const phewas_note = <span>The Website and the <Href href={process.env.REST_API_URL_PUBLIC} text='REST API'/> only display the filtered PheWAS data (i.e. having the {phewas_mention()}).</span>
+    const phewas_note = <span>The website and the <Href href={process.env.REST_API_URL_PUBLIC} text='REST API'/> only display the filtered PheWAS data (i.e. having the {phewas_mention()}).</span>
 
     const phewas_export_format = <div className='highlight_section px-4 py-3'>
         List of the columns in the PheWAS export format:

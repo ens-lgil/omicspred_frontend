@@ -21,21 +21,22 @@ const AncestryDistribution = (props) => {
     }
 
 
-    const build_omics_data = (anc_data) => {
+    const build_omics_data = (ancestry_dist) => {
+        const anc_data = ancestry_dist.ancestry_data;
         let data = {
             'labels': [],
             'names': [],
             'datasets': []
         }
+        const dataset_label = ancestry_dist.avg_participants ?  'Average Participants' : 'Participants'
         let dataset = {
-            'label': 'Participants',
+            'label': dataset_label,
             'extra_info': [],
             'data': [],
             'total': 0,
             'backgroundColor': [],
         }
 
-        // let anc_data = {};
         var style = getComputedStyle(document.body);
         for (let i=0;i<anc_data.length;i++) {
             const anc = anc_data[i];
@@ -65,7 +66,9 @@ const AncestryDistribution = (props) => {
             const bg_colour = style.getPropertyValue('--'+anc.id+'_color');
             dataset.backgroundColor.push(bg_colour);
         }
-
+        if (ancestry_dist.avg_participants) {
+            dataset.total = ancestry_dist.avg_participants
+        }
         data.datasets.push(dataset);
         return data
     }

@@ -10,7 +10,7 @@ export const tissues_columns = [
         field: 'label',
         headerName: 'Tissue name',
         minWidth: 150,
-        flex: 1,
+        // flex: 1,
         renderCell: (params) => {
             const tissue = params.row;
             return omicspred_internal_link({'id': tissue.id, 'label': tissue.label},'tissue');
@@ -20,8 +20,8 @@ export const tissues_columns = [
     {
         field: 'id',
         headerName: 'Tissue ID',
-        minWidth: 160,
-        flex: 1,
+        minWidth: 170,
+        // flex: 1,
         renderCell: (params) => {
             const tissue_id = params.row.id;
             const tissue_url = params.row.url;
@@ -33,7 +33,7 @@ export const tissues_columns = [
         field: 'description',
         headerName: 'Description',
         minWidth: 450,
-        flex: 1,
+        // flex: 1,
         sortable: false,
         renderCell: (params) => {
             if (params.row.description && params.row.description != '[]') {
