@@ -18,8 +18,12 @@ const format_ancestry_data = (anc_data) => {
 }
 
 
-const render_ancestry = (ancestry_data, publication_id, type) => {
-    const ancestry_list = format_ancestry_data(ancestry_data);
+const render_ancestry = (ancestry_data, avg_participants_count, publication_id, type) => {
+    let ancestry_list = {'ancestry_data': format_ancestry_data(ancestry_data) }
+    // Add average number of participants when there are more than one sample at the Dataset level
+    if (avg_participants_count) {
+        ancestry_list['avg_participants'] = avg_participants_count;
+    }
     return <AncestryDistribution key={"anc_"+type} data={ancestry_list} publication_id={publication_id} size={chart_size}/>
 }
 
@@ -55,7 +59,8 @@ const compute_sample_dist = (sample_data) => {
     let sample_total_number = 0;
     let ancestry_dist = {};
     let anc_dist = {};
-    for (let j=0; j<sample_data.length; j++) {
+    const sample_count = sample_data.length;
+    for (let j=0; j<sample_count; j++) {
         const sample_entry = sample_data[j];
         const sample_number = sample_entry.sample_number;
         const label = get_ancestry_name(sample_entry.ancestry_broad);
@@ -75,7 +80,11 @@ const compute_sample_dist = (sample_data) => {
     }
     // Post-process ancestry distribution
     if (Object.keys(anc_dist).length > 0) {
-        ancestry_dist = { 'anc': {}, 'count': sample_total_number }
+        ancestry_dist = { 'anc': {} }
+        // Add average number of participants when there are more than one sample at the Dataset level 
+        if (sample_count > 1) {
+            ancestry_dist['avg_count'] = Math.round(sample_total_number/sample_count);
+        }
 
         // Sort distributed ancestries
         let anc_labels = Object.keys(anc_dist);
@@ -152,7 +161,7 @@ export const ancestry_cols = {
             if (params.row.ancestry) {
                 if (params.row.ancestry.dev) {
                     if (params.row.ancestry.dev.anc) {
-                        return render_ancestry(params.row.ancestry.dev.anc,params.row.publication.id,'training');
+                        return render_ancestry(params.row.ancestry.dev.anc,undefined,params.row.publication.id,'training');
                     }
                 }
             }
@@ -180,7 +189,7 @@ export const ancestry_cols = {
             const ancestry_data = compute_sample_dist(params.row.samples_training)
             if (ancestry_data) {
                 if (ancestry_data['anc']) {
-                    return render_ancestry(ancestry_data['anc'],params.row.publication,'training');
+                    return render_ancestry(ancestry_data['anc'],ancestry_data['avg_count'],params.row.publication,'training');
                 }
             }
             return <div className="text-center align-middle" style={{lineHeight:"50px"}}>{default_cell_value}</div>;
@@ -206,7 +215,7 @@ export const ancestry_cols = {
             if (params.row.ancestry) {
                 if (params.row.ancestry.eval) {
                     if (params.row.ancestry.eval.anc) {
-                        return render_ancestry(params.row.ancestry.eval.anc,params.row.publication.id,'validation');
+                        return render_ancestry(params.row.ancestry.eval.anc,undefined,params.row.publication.id,'validation');
                     }
                 }
             }
@@ -234,7 +243,7 @@ export const ancestry_cols = {
             const ancestry_data = compute_sample_dist(params.row.samples_validation)
             if (ancestry_data) {
                 if (ancestry_data['anc']) {
-                    return render_ancestry(ancestry_data['anc'],params.row.publication,'validation');
+                    return render_ancestry(ancestry_data['anc'],ancestry_data['avg_count'],params.row.publication,'validation');
                 }
             }
             return <div className="text-center align-middle" style={{lineHeight:"50px"}}>{default_cell_value}</div>;

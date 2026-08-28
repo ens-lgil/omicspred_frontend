@@ -129,11 +129,11 @@ const columns_for_dataset = {
         sortable: false,
         // flex: 1,
         renderCell: (params) => {
-            const count_samples = params.row.samples_training.length + params.row.samples_validation.length
-            if (count_samples > 1) {
+            const count_samples = params.row.samples_training.length + params.row.samples_validation.length;
+            const publication_id = params.row.publication.id;
+            if (count_samples > 1 && publication_id == 'OPP000001') { // Temporary value
                 const dataset_id = params.row.id;
                 const platform_name = params.row.platform.name;
-                const publication_id = params.row.publication.id;
                 let plot_url = "/plot/"+platform_name+"/"+publication_id;
                 if (dataset_id) {
                     plot_url += '?dataset='+dataset_id;

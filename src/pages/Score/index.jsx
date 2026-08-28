@@ -301,7 +301,7 @@ function Score() {
                 "anc_list": ancestry_data[anc_name]['anc_list'] ? ancestry_data[anc_name]['anc_list'] : undefined
             }));
         }
-        return ancestry_list;
+        return { 'ancestry_data': ancestry_list };
     }
 
     const ancestry_dist = (in_col) => {
@@ -362,14 +362,13 @@ function Score() {
                                 {/* Ancestry distribution */}
                                 { scoreData.ancestry ?
                                     <div className='ancestry_container d-flex mb-3'>
-                                        { is_dev && radarData && Object.keys(radarData).length > 0 ?
+                                        { is_dev && radarData && Object.keys(radarData).length > 0 && radarData.labels.length > 2 ?
                                             <div>{ancestry_dist(true)}</div> : <>{ancestry_dist()}</>
                                         }
-                                        { is_dev && radarData && Object.keys(radarData).length > 0 ?
-                                            // <div className='ms-3'>
+                                        { is_dev && radarData && Object.keys(radarData).length > 0 && radarData.labels.length > 2 ?
                                             <div className='ancestry_container d-flex mb-3'>
                                                 <div className="card p-0">
-                                                    <div className="card-header"><h6 className="mb-0">Ancestry performance [<span style={{color:'#F55'}}>EXPERIMENTAL</span>]</h6></div>
+                                                    <div className="card-header"><h6 className="mb-0">Ancestry performance (R<sup>2</sup>) [<span style={{color:'#F55'}}>EXPERIMENTAL</span>]</h6></div>
                                                     <div className="card-body p-1">
                                                         <div className='d-flex justify-content-center'>
                                                             <OPRadar data={radarData}/>
