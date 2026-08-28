@@ -11,7 +11,7 @@ const CitationCard = () => {
           <p className="card-text">Foguet C, Gil L, Xu Y, Salazar-Magaña S, Ritchie SC, Persyn E, Im HK, Inouye M, Lambert SA.</p>
         </div>
         <div className="card-footer">
-          doi:<Href text={doi} href={process.env.URL_ROOT_DOI+doi} /><span className="ps-2 ms-2" style={{borderLeft:"1px solid"}}>medRxiv (2026)</span>
+          doi:<Href text={doi} href={process.env.URL_ROOT_DOI+doi} /><span className="ps-2 ms-2" style={{borderLeft:"1px solid"}}>Nature Genetics (2026)</span>
         </div>
       </div>
     </div>
